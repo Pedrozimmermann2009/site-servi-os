@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DigitalPro - Soluções Digitais</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Reset e configurações gerais */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --gray: #95a5a6;
+            --transition: all 0.3s ease;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Header e Navegação */
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--secondary);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 1.5rem;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            padding: 0.5rem 0;
+            position: relative;
+        }
+
+        nav ul li a:hover {
+            color: var(--secondary);
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--secondary);
+            transition: var(--transition);
+        }
+
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+
+        .mobile-menu {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Carrossel */
+        .carousel {
+            margin-top: 70px;
+            position: relative;
+            height: 500px;
+            overflow: hidden;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .carousel-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .carousel-slide.active {
+            opacity: 1;
+        }
+
+        .carousel-slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .slide-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            color: white;
+            max-width: 800px;
+            padding: 0 20px;
+        }
+
+        .slide-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .slide-content p {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--secondary);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #2980b9;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .carousel-controls {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            z-index: 2;
+        }
+
+        .carousel-control {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.5);
+            margin: 0 5px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .carousel-control.active {
+            background-color: white;
+        }
+
+        /* Seção de Serviços */
+        .services {
+            padding: 5rem 0;
+            background-color: white;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h2 {
+            font-size: 2.2rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 70px;
+            height: 3px;
+            background-color: var(--secondary);
+        }
+
+        .section-title p {
+            color: var(--gray);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .service-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .service-icon {
+            background-color: var(--primary);
+            color: white;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+        }
+
+        .service-content {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .service-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .service-content p {
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+
+        /* Seção Sobre */
+        .about {
+            padding: 5rem 0;
+            background-color: #f5f7fa;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .about-text h2 {
+            font-size: 2.2rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+
+        .about-text p {
+            margin-bottom: 1.5rem;
+            color: #555;
+        }
+
+        .about-image {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .about-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: var(--transition);
+        }
+
+        .about-image:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--primary);
+            color: white;
+            padding: 3rem 0 1.5rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background-color: var(--secondary);
+        }
+
+        .footer-column p {
+            margin-bottom: 1rem;
+            color: #ddd;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-column ul li a {
+            color: #ddd;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-column ul li a:hover {
+            color: var(--secondary);
+            padding-left: 5px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background-color: var(--secondary);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #ddd;
+            font-size: 0.9rem;
+        }
+
+        /* Página de Serviço */
+        .service-page {
+            margin-top: 100px;
+            padding: 5rem 0;
+            min-height: calc(100vh - 100px);
+        }
+
+        .service-detail {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .service-header {
+            background-color: var(--primary);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .service-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .service-body {
+            padding: 2rem;
+        }
+
+        .service-body h2 {
+            color: var(--primary);
+            margin: 1.5rem 0 1rem;
+            font-size: 1.8rem;
+        }
+
+        .service-body h2:first-child {
+            margin-top: 0;
+        }
+
+        .service-body p {
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+
+        .service-body ul {
+            margin-left: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .service-body ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 1.5rem;
+            color: var(--secondary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .back-btn:hover {
+            color: var(--primary);
+        }
+
+        /* Responsividade */
+        @media (max-width: 992px) {
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .about-image {
+                order: -1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu {
+                display: block;
+            }
+            
+            nav ul {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background-color: var(--primary);
+                flex-direction: column;
+                align-items: center;
+                justify-content: flex-start;
+                padding-top: 2rem;
+                transition: var(--transition);
+            }
+            
+            nav ul.active {
+                left: 0;
+            }
+            
+            nav ul li {
+                margin: 1rem 0;
+            }
+            
+            .carousel {
+                height: 400px;
+            }
+            
+            .slide-content h2 {
+                font-size: 2rem;
+            }
+            
+            .slide-content p {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .carousel {
+                height: 350px;
+            }
+            
+            .slide-content h2 {
+                font-size: 1.8rem;
+            }
+            
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .section-title h2 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="#" class="logo">Digital<span>Pro</span></a>
+                <div class="mobile-menu">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="#home">Início</a></li>
+                        <li><a href="#services">Serviços</a></li>
+                        <li><a href="#about">Sobre</a></li>
+                        <li><a href="#contact">Contato</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Carrossel -->
+    <section class="carousel" id="home">
+        <div class="carousel-slide active" style="background-image: url('https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80');">
+            <div class="slide-content">
+                <h2>Soluções Digitais Completas</h2>
+                <p>Oferecemos serviços especializados para impulsionar sua presença digital e alcançar resultados excepcionais.</p>
+                <a href="#services" class="btn">Nossos Serviços</a>
+            </div>
+        </div>
+        <div class="carousel-slide" style="background-image: url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80');">
+            <div class="slide-content">
+                <h2>Gestão de Redes Sociais</h2>
+                <p>Maximize seu alcance e engajamento nas redes sociais com estratégias personalizadas.</p>
+                <a href="#services" class="btn">Saiba Mais</a>
+            </div>
+        </div>
+        <div class="carousel-slide" style="background-image: url('https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1115&q=80');">
+            <div class="slide-content">
+                <h2>Desenvolvimento Web</h2>
+                <p>Criamos sites modernos, responsivos e otimizados para conversão.</p>
+                <a href="#services" class="btn">Conhecer Serviços</a>
+            </div>
+        </div>
+        <div class="carousel-controls">
+            <div class="carousel-control active"></div>
+            <div class="carousel-control"></div>
+            <div class="carousel-control"></div>
+        </div>
+    </section>
+
+    <!-- Seção de Serviços -->
+    <section class="services" id="services">
+        <div class="container">
+            <div class="section-title">
+                <h2>Nossos Serviços</h2>
+                <p>Oferecemos uma gama completa de serviços digitais para atender todas as suas necessidades online.</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-hashtag"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Gestão de Redes Sociais</h3>
+                        <p>Gerenciamos suas redes sociais com estratégias personalizadas para aumentar seu engajamento, alcance e conversões.</p>
+                        <a href="service-social-media.html" class="btn">Saiba Mais</a>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Edição de Vídeo</h3>
+                        <p>Criamos vídeos profissionais e impactantes para suas campanhas, redes sociais e apresentações.</p>
+                        <a href="service-video-editing.html" class="btn">Saiba Mais</a>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Desenvolvimento Web</h3>
+                        <p>Desenvolvemos sites modernos, responsivos e otimizados para SEO, proporcionando a melhor experiência ao usuário.</p>
+                        <a href="service-web-development.html" class="btn">Saiba Mais</a>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-paint-brush"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Design Gráfico</h3>
+                        <p>Criamos identidades visuais marcantes, logotipos e materiais gráficos que comunicam a essência da sua marca.</p>
+                        <a href="service-graphic-design.html" class="btn">Saiba Mais</a>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Marketing Digital</h3>
+                        <p>Desenvolvemos estratégias de marketing digital completas para aumentar sua visibilidade e gerar leads qualificados.</p>
+                        <a href="service-digital-marketing.html" class="btn">Saiba Mais</a>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>SEO e Otimização</h3>
+                        <p>Otimizamos seu site para os mecanismos de busca, aumentando seu tráfego orgânico e visibilidade online.</p>
+                        <a href="service-seo.html" class="btn">Saiba Mais</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção Sobre -->
+    <section class="about" id="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>Sobre a DigitalPro</h2>
+                    <p>Somos uma agência digital especializada em oferecer soluções completas para empresas que desejam fortalecer sua presença online e alcançar resultados excepcionais.</p>
+                    <p>Com uma equipe multidisciplinar de profissionais experientes, combinamos criatividade, estratégia e tecnologia para desenvolver projetos que realmente fazem a diferença para nossos clientes.</p>
+                    <p>Nossa abordagem é centrada no cliente, entendendo suas necessidades específicas para entregar soluções personalizadas que impulsionam o crescimento do seu negócio.</p>
+                    <a href="#contact" class="btn">Entre em Contato</a>
+                </div>
+                <div class="about-image">
+                    <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Equipe DigitalPro">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>DigitalPro</h3>
+                    <p>Especialistas em soluções digitais completas para impulsionar seu negócio online.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Serviços</h3>
+                    <ul>
+                        <li><a href="service-social-media.html">Gestão de Redes Sociais</a></li>
+                        <li><a href="service-video-editing.html">Edição de Vídeo</a></li>
+                        <li><a href="service-web-development.html">Desenvolvimento Web</a></li>
+                        <li><a href="service-graphic-design.html">Design Gráfico</a></li>
+                        <li><a href="service-digital-marketing.html">Marketing Digital</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Links Rápidos</h3>
+                    <ul>
+                        <li><a href="#home">Início</a></li>
+                        <li><a href="#services">Serviços</a></li>
+                        <li><a href="#about">Sobre</a></li>
+                        <li><a href="#contact">Contato</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 DigitalPro. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Página de Serviço (exemplo) -->
+    <div id="service-page" class="service-page" style="display: none;">
+        <div class="container">
+            <div class="service-detail">
+                <div class="service-header">
+                    <h1 id="service-title">Gestão de Redes Sociais</h1>
+                </div>
+                <div class="service-body">
+                    <h2>O que oferecemos</h2>
+                    <p>Nossa equipe especializada em gestão de redes sociais desenvolve estratégias personalizadas para aumentar sua presença digital, engajar seu público-alvo e impulsionar suas conversões.</p>
+                    
+                    <h2>Nossas Soluções</h2>
+                    <ul>
+                        <li>Planejamento estratégico de conteúdo</li>
+                        <li>Gestão diária de redes sociais</li>
+                        <li>Criação de conteúdo visual atrativo</li>
+                        <li>Análise de métricas e relatórios de performance</li>
+                        <li>Campanhas patrocinadas e anúncios</li>
+                        <li>Interação com a comunidade</li>
+                    </ul>
+                    
+                    <h2>Benefícios</h2>
+                    <p>Ao investir em uma gestão profissional de redes sociais, sua empresa poderá:</p>
+                    <ul>
+                        <li>Aumentar significativamente seu alcance orgânico</li>
+                        <li>Construir relacionamentos sólidos com seu público</li>
+                        <li>Gerar mais leads e vendas através das redes sociais</li>
+                        <li>Fortaler a imagem da sua marca no ambiente digital</li>
+                        <li>Obter insights valiosos sobre seu público-alvo</li>
+                    </ul>
+                    
+                    <a href="#" class="back-btn" id="back-to-home">&larr; Voltar para a página inicial</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Menu Mobile
+        document.querySelector('.mobile-menu').addEventListener('click', function() {
+            document.querySelector('nav ul').classList.toggle('active');
+        });
+
+        // Carrossel
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.carousel-slide');
+        const controls = document.querySelectorAll('.carousel-control');
+        
+        function showSlide(n) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            controls.forEach(control => control.classList.remove('active'));
+            
+            currentSlide = (n + slides.length) % slides.length;
+            
+            slides[currentSlide].classList.add('active');
+            controls[currentSlide].classList.add('active');
+        }
+        
+        // Controles do carrossel
+        controls.forEach((control, index) => {
+            control.addEventListener('click', () => {
+                showSlide(index);
+            });
+        });
+        
+        // Auto avançar slides
+        setInterval(() => {
+            showSlide(currentSlide + 1);
+        }, 5000);
+        
+        // Navegação para páginas de serviço
+        document.querySelectorAll('.service-card .btn').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Obtém o título do serviço
+                const serviceTitle = this.closest('.service-card').querySelector('h3').textContent;
+                
+                // Atualiza o título na página de serviço
+                document.getElementById('service-title').textContent = serviceTitle;
+                
+                // Esconde a página principal e mostra a página de serviço
+                document.querySelector('header').style.display = 'none';
+                document.querySelector('.carousel').style.display = 'none';
+                document.querySelector('.services').style.display = 'none';
+                document.querySelector('.about').style.display = 'none';
+                document.querySelector('footer').style.display = 'none';
+                document.getElementById('service-page').style.display = 'block';
+                
+                // Rola para o topo
+                window.scrollTo(0, 0);
+            });
+        });
+        
+        // Voltar para a página inicial
+        document.getElementById('back-to-home').addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Mostra a página principal e esconde a página de serviço
+            document.querySelector('header').style.display = 'block';
+            document.querySelector('.carousel').style.display = 'block';
+            document.querySelector('.services').style.display = 'block';
+            document.querySelector('.about').style.display = 'block';
+            document.querySelector('footer').style.display = 'block';
+            document.getElementById('service-page').style.display = 'none';
+            
+            // Rola para o topo
+            window.scrollTo(0, 0);
+        });
+    </script>
+</body>
+</html>
